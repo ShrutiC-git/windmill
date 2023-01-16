@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     outputs:
-      compose-file-cache-key: ${{ env.COMPOSE_FILE_HASH }}
+      compose-file-cache-key: ${{ env.HASH }}
       pr-number: ${{ env.PR_NUMBER }}
     steps:
       - name: 'Download artifacts'
@@ -51,13 +51,13 @@ jobs:
         id: hash
         # If the previous workflow was triggered by a PR close event, we will not have a compose file artifact.
         if: ${{ fromJSON(env.EVENT_JSON).action != 'closed' }}
-        run: echo "COMPOSE_FILE_HASH=$(md5sum docker-compose.rendered.yml | awk '{ print $1 }')" >> $GITHUB_ENV
+        run: echo "HASH=$(md5sum docker-compose.rendered.yml | awk '{ print $1 }')" >> $GITHUB_ENV
       - name: Cache Rendered Compose File
         if: ${{ fromJSON(env.EVENT_JSON).action != 'closed' }}
         uses: actions/cache@v3
         with:
           path: docker-compose.rendered.yml
-          key: ${{ env.COMPOSE_FILE_HASH }}
+          key: ${{ env.HASH }}
 
       - name: Read PR Number From Event Object
         id: pr
@@ -67,7 +67,7 @@ jobs:
         if: ${{ runner.debug }}
         run: |
           echo "PR number: ${{ env.PR_NUMBER }}"
-          echo "Compose file hash: ${{ env.COMPOSE_FILE_HASH }}"
+          echo "Compose file hash: ${{ env.HASH }}"
           cat event.json
 
   deploy-uffizzi-preview:
