@@ -4,7 +4,6 @@ x-uffizzi:
   ingress:
     service: windmill
     port: 8000
-
 services:
   db:
     image: postgres:14
