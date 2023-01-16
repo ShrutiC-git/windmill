@@ -10,7 +10,6 @@ services:
     environment:
       POSTGRES_PASSWORD: changeme
       POSTGRES_DB: windmill
-
   windmill:
     image: '${WINDMILL_IMAGE}'
     privileged: false
