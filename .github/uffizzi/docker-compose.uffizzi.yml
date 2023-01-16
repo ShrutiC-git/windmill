@@ -4,14 +4,12 @@ x-uffizzi:
   ingress:
     service: windmill
     port: 8000
-
 services:
   db:
     image: postgres:14
     environment:
       POSTGRES_PASSWORD: changeme
       POSTGRES_DB: windmill
-
   windmill:
     image: '${WINDMILL_IMAGE}'
     privileged: false
@@ -32,7 +30,7 @@ services:
       - worker_dependency_cache:/tmp/windmill/cache
 
   lsp:
-    image: '${LSP_IMAGE}'
+    image: ghcr.io/windmill-labs/windmill-lsp:latest
     restart: unless-stopped
     ports:
       - 3001:3001
