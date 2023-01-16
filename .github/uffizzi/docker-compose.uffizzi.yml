@@ -30,7 +30,7 @@ services:
       - worker_dependency_cache:/tmp/windmill/cache
 
   lsp:
-    image: '${LSP_IMAGE}'
+    image: ghcr.io/windmill-labs/windmill-lsp:latest
     restart: unless-stopped
     ports:
       - 3001:3001

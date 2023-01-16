@@ -6,7 +6,7 @@ on:
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
-  
+
 jobs:
   build-windmill:
     name: Build and Push `windmill`
@@ -53,9 +53,7 @@ jobs:
         run: |
           WINDMILL_IMAGE=${{ needs.build-windmill.outputs.tags }}
           export WINDMILL_IMAGE
-          LSP_IMAGE=ghcr.io/windmill-labs/windmill-lsp:latest
-          export LSP_IMAGE
-          envsubst '${WINDMILL_IMAGE} ${LSP_IMAGE}' < ./.github/uffizzi/docker-compose.uffizzi.yml > docker-compose.rendered.yml
+          envsubst '${WINDMILL_IMAGE}' < ./.github/uffizzi/docker-compose.uffizzi.yml > docker-compose.rendered.yml
           cat docker-compose.rendered.yml
       - name: Upload Rendered Compose File as Artifact
         uses: actions/upload-artifact@v3
